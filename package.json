@@ -1,0 +1,20 @@
+{
+  "name": "smarterghost",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run",
+    "dev": "wrangler dev",
+    "test": "vitest run",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241011.0",
+    "@fast-check/vitest": "^0.5.0",
+    "fast-check": "^4.10.2",
+    "typescript": "^5.6.3",
+    "vitest": "^5.0.0",
+    "wrangler": "^3.86.0"
+  }
+}

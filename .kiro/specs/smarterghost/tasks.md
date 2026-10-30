@@ -12,13 +12,13 @@ Goal: a deployable Cloudflare Worker that returns "SmarterGhost online" and
 serves a placeholder `index.html`. This proves the toolchain and deployment
 pipeline before any feature work.
 
-- [ ] **1.1** Initialize project: `package.json` with `wrangler`, `vitest`, `fast-check`, `vitest-fast-check`, `typescript` dev deps; add `build`, `dev`, `test`, `deploy` scripts. *(infra)*
-- [ ] **1.2** Create `tsconfig.json` with `target: "ES2022"`, `module: "ES2022"`, `moduleResolution: "bundler"`, strict mode, and Cloudflare `@cloudflare/workers-types`. *(infra)*
-- [ ] **1.3** Create `wrangler.toml` with `name`, `main = "src/worker.ts"`, `compatibility_date`, `assets` binding (directory `./public`), `AI` binding, and `GHOST_KV` namespace placeholder. *(infra — design §1.3)*
-- [ ] **1.4** Create `src/types.ts` with `Env` interface (`ASSETS`, `AI`, `GHOST_KV`), `SessionId` type, and data model interfaces (`AwayState`, `Reminder`, `ScreenName`). *(design §1.4, §4.2)*
-- [ ] **1.5** Create `src/worker.ts` with a `fetch` handler that routes `GET /` → serves `public/index.html` via `env.ASETS`, and returns 404 for everything else. *(US-7.3)*
-- [ ] **1.6** Create `public/index.html` placeholder with title "SmarterGhost" and a single `<h1>SmarterGhost online</h1>`. *(US-1.1 — minimal)*
-- [ ] **1.7** Create `vitest.config.ts` with node environment, include patterns for `src/**/*.test.ts` and `test/**/*.test.ts`, and v8 coverage. *(design §8.6)*
+- [x] **1.1** Initialize project: `package.json` with `wrangler`, `vitest`, `fast-check`, `vitest-fast-check`, `typescript` dev deps; add `build`, `dev`, `test`, `deploy` scripts. *(infra)*
+- [x] **1.2** Create `tsconfig.json` with `target: "ES2022"`, `module: "ES2022"`, `moduleResolution: "bundler"`, strict mode, and Cloudflare `@cloudflare/workers-types`. *(infra)*
+- [x] **1.3** Create `wrangler.toml` with `name`, `main = "src/worker.ts"`, `compatibility_date`, `assets` binding (directory `./public`), `AI` binding, and `GHOST_KV` namespace placeholder. *(infra — design §1.3)*
+- [x] **1.4** Create `src/types.ts` with `Env` interface (`ASSETS`, `AI`, `GHOST_KV`), `SessionId` type, and data model interfaces (`AwayState`, `Reminder`, `ScreenName`). *(design §1.4, §4.2)*
+- [x] **1.5** Create `src/worker.ts` with a `fetch` handler that routes `GET /` → serves `public/index.html` via `env.ASETS`, and returns 404 for everything else. *(US-7.3)*
+- [x] **1.6** Create `public/index.html` placeholder with title "SmarterGhost" and a single `<h1>SmarterGhost online</h1>`. *(US-1.1 — minimal)*
+- [x] **1.7** Create `vitest.config.ts` with node environment, include patterns for `src/**/*.test.ts` and `test/**/*.test.ts`, and v8 coverage. *(design §8.6)*
 - [ ] **1.8** Run `npx wrangler dev` locally, verify `GET /` returns the placeholder page. *(verification)*
 - [ ] **1.9** Run `npx wrangler deploy`, verify the deployed URL returns the placeholder page. *(verification — early deployability)*
 
