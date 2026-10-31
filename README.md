@@ -52,7 +52,11 @@ npm run deploy     # wrangler deploy
 - `src/commands/` — parser (lexical routing), registry (data-driven dispatch),
   one module per command
 - `src/ai.ts` — persona system prompt, Workers AI streaming, SSE transform,
-  in-character error and rate-limit fallbacks
+  in-character error and rate-limit fallbacks. AI usage is bounded
+  best-effort (1000-char message cap, 256 max output tokens) so a day of
+  normal chat stays within the Workers AI free allocation; the provider's
+  free-tier hard stop is the real ceiling, and the bot degrades to an
+  in-character "too many people talking" message when it hits
 - `src/kv.ts` — KV adapter with per-session namespaced keys and TTLs
 - `src/ui/` — BuddyList, ChatWindow, ChatInputBar, AwayMessageBanner,
   SoundToggle, App (session + history in localStorage)
