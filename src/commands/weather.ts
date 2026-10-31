@@ -51,6 +51,7 @@ interface GeocodeResult {
   name: string;
   country?: string;
   admin1?: string;
+  population?: number;
 }
 
 async function fetchJson(url: string): Promise<unknown> {
@@ -76,7 +77,7 @@ export async function weatherHandler(
   let geo: { results?: GeocodeResult[] };
   try {
     geo = (await fetchJson(
-      `${GEOCODE_URL}?name=${encodeURIComponent(location)}&count=1&language=en&format=json`,
+      `${GEOCODE_URL}?name=${encodeURIComponent(location)}&count=5&language=en&format=json`,
     )) as { results?: GeocodeResult[] };
   } catch {
     return {
@@ -85,7 +86,11 @@ export async function weatherHandler(
     };
   }
 
-  const place = geo.results?.[0];
+  // Ambiguous names (e.g. Kochi, India vs Kochi, Japan): prefer the
+  // largest-population match rather than the API's first hit.
+  const place = geo.results
+    ?.slice()
+    .sort((a, b) => (b.population ?? 0) - (a.population ?? 0))[0];
   if (!place) {
     return {
       kind: "text",
@@ -128,9 +133,10 @@ export async function weatherHandler(
     };
   }
 
-  const label = [place.name, place.admin1 ?? place.country]
-    .filter(Boolean)
-    .join(", ");
+  const labelParts = [place.name, place.admin1, place.country].filter(
+    (p): p is string => Boolean(p),
+  );
+  const label = [...new Set(labelParts)].join(", ");
   const lines = [
     `Weather for ${label}:`,
     `${Math.round(c.temperature_2m)}°F (feels like ${Math.round(

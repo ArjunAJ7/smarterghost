@@ -50,7 +50,7 @@ describe("weatherHandler", () => {
     const r = await weatherHandler("new york");
     expect(r.kind).toBe("text");
     expect(r.payload).toBe(
-      "Weather for New York, New York:\n" +
+      "Weather for New York, United States:\n" +
         "72°F (feels like 74°F), Clear sky\n" +
         "Humidity: 45% | Wind: 8 mph\n" +
         "Today: H 78°F / L 62°F",
@@ -60,6 +60,25 @@ describe("weatherHandler", () => {
       "geocoding-api.open-meteo.com",
     );
     expect(String(fetchMock.mock.calls[1][0])).toContain("latitude=40.71");
+  });
+
+  it("prefers the largest-population match for ambiguous names", async () => {
+    const ambiguous = {
+      results: [
+        { latitude: 33.5, longitude: 133.5, name: "Kochi", admin1: "Kochi", country: "Japan", population: 332059 },
+        { latitude: 9.93, longitude: 76.27, name: "Kochi", admin1: "Kerala", country: "India", population: 633553 },
+      ],
+    };
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(jsonResponse(ambiguous))
+      .mockResolvedValueOnce(jsonResponse(FORECAST));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const r = await weatherHandler("kochi");
+    expect(r.kind).toBe("text");
+    expect(r.payload).toContain("Weather for Kochi, Kerala, India:");
+    expect(String(fetchMock.mock.calls[1][0])).toContain("latitude=9.93");
   });
 
   it("replies in-character when geocoding finds nothing", async () => {

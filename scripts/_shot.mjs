@@ -1,0 +1,11 @@
+import puppeteer from 'puppeteer-core';
+const mode = process.argv[2] || 'desktop';
+const w = mode === 'mobile' ? 375 : 1280, h = mode === 'mobile' ? 700 : 800;
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox','--disable-gpu'] });
+const page = await browser.newPage();
+await page.setViewport({ width: w, height: h });
+await page.goto('https://smarterghost.arjun-vinod0028.workers.dev/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+await new Promise(r => setTimeout(r, 3500));
+await page.screenshot({ path: `/tmp/deployed-${mode}.png` });
+await browser.close();
+console.log('saved', mode);
