@@ -57,10 +57,10 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 - [x] **3.4** Write `src/commands/weather.test.ts` — test with mocked fetch responses: valid weather, geocode miss, API timeout. *(US-3.1, design §8.2)*
 - [x] **3.5** Create `src/commands/wiki.ts` — fetch Wikipedia REST summary, truncate extract to ≤300 words on word boundaries, format with title + link. 404 fallback to search redirect. *(US-3.2, design §6.2)*
 - [x] **3.6** Write `src/commands/wiki.test.ts` — test: valid summary, truncation at 300 words, 404 fallback, not-found message. *(US-3.2, design §8.2)*
-- [ ] **3.7** Create `src/commands/define.ts` — fetch Free Dictionary API, format multiple meanings with POS tags and phonetic. *(US-3.3, design §6.3)*
-- [ ] **3.8** Write `src/commands/define.test.ts` — test: valid entry with multiple meanings, 404 fallback, missing phonetic. *(US-3.3, design §8.2)*
-- [ ] **3.9** Create `src/commands/news.ts` — fetch HN Algolia front-page, format top 5 headlines with points + links. *(US-3.4, design §6.4)*
-- [ ] **3.10** Write `src/commands/news.test.ts` — test: valid response with 5 hits, empty results, API error. *(US-3.4, design §8.2)*
+- [x] **3.7** Create `src/commands/define.ts` — fetch Free Dictionary API, format multiple meanings with POS tags and phonetic. *(US-3.3, design §6.3)*
+- [x] **3.8** Write `src/commands/define.test.ts` — test: valid entry with multiple meanings, 404 fallback, missing phonetic. *(US-3.3, design §8.2)*
+- [x] **3.9** Create `src/commands/news.ts` — fetch HN Algolia front-page, format top 5 headlines with points + links. *(US-3.4, design §6.4)*
+- [x] **3.10** Write `src/commands/news.test.ts` — test: valid response with 5 hits, empty results, API error. *(US-3.4, design §8.2)*
 
 ### 3C — Reminder & Away Commands
 
