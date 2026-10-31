@@ -76,10 +76,10 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 
 ### 3E — AI Handler
 
-- [ ] **3.17** Create `src/ai.ts` with `streamAIResponse(env, messages, sessionId)` — builds Llama message array with system prompt persona, calls `env.AI.run("@cf/meta/llama-3.1-8b-instruct", { stream: true, max_tokens: 512 })`, transforms to SSE. *(US-2.1, US-2.2, design §5.1–5.2)*
-- [ ] **3.18** Define system prompt constant with the SmarterGhost persona (playful, retro, concise, no markdown). *(US-2.2, design §5.2)*
-- [ ] **3.19** Implement `transformToSSE(stream)` — converts Workers AI `ReadableStream` into SSE-formatted `token`/`done`/`error` events per design §5.3. *(US-2.1, US-2.4, design §5.3)*
-- [ ] **3.20** Write `src/ai.test.ts` — test SSE transform with a mocked ReadableStream; verify event format and error handling. *(US-2.1, design §8.2)*
+- [x] **3.17** Create `src/ai.ts` with `streamAIResponse(env, messages, sessionId)` — builds Llama message array with system prompt persona, calls `env.AI.run("@cf/meta/llama-3.1-8b-instruct", { stream: true, max_tokens: 512 })`, transforms to SSE. *(US-2.1, US-2.2, design §5.1–5.2)*
+- [x] **3.18** Define system prompt constant with the SmarterGhost persona (playful, retro, concise, no markdown). *(US-2.2, design §5.2)*
+- [x] **3.19** Implement `transformToSSE(stream)` — converts Workers AI `ReadableStream` into SSE-formatted `token`/`done`/`error` events per design §5.3. *(US-2.1, US-2.4, design §5.3)*
+- [x] **3.20** Write `src/ai.test.ts` — test SSE transform with a mocked ReadableStream; verify event format and error handling. *(US-2.1, design §8.2)*
 
 ### 3F — Worker Route Wiring
 
