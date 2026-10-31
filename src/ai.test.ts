@@ -113,4 +113,13 @@ describe("streamAIResponse error paths", () => {
     const out = await readAll(await streamAIResponse(env, [], SID));
     expect(out).toContain(AI_RATE_LIMITED);
   });
+  it("treats free-quota exhaustion as degraded mode", async () => {
+    const env = {
+      AI: { run: async () => { throw new Error("Usage quota exceeded for today"); } },
+    } as never;
+    const stream = await streamAIResponse(env, [], "s1");
+    const text = await new Response(stream).text();
+    expect(text).toContain(AI_RATE_LIMITED);
+  });
+
 });

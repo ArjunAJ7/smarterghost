@@ -128,7 +128,7 @@ export async function streamAIResponse(
   } catch (err) {
     console.error("Workers AI error:", err instanceof Error ? err.message : String(err));
     const message =
-      err instanceof Error && /429|rate.?limit/i.test(err.message)
+      err instanceof Error && /429|rate.?limit|quota|exceed/i.test(err.message)
         ? AI_RATE_LIMITED
         : AI_FALLBACK;
     return new ReadableStream<Uint8Array>({
