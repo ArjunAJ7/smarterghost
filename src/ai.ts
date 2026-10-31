@@ -27,7 +27,7 @@ export interface ChatMessage {
   content: string;
 }
 
-const MODEL = "@cf/meta/llama-3.1-8b-instruct";
+const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 const MAX_HISTORY = 20; // keep the prompt small; older turns are dropped
 
 /** Build the Llama message array: system prompt + recent history. */
@@ -126,6 +126,7 @@ export async function streamAIResponse(
     })) as unknown as ReadableStream<Uint8Array>;
     return transformToSSE(response);
   } catch (err) {
+    console.error("Workers AI error:", err instanceof Error ? err.message : String(err));
     const message =
       err instanceof Error && /429|rate.?limit/i.test(err.message)
         ? AI_RATE_LIMITED
