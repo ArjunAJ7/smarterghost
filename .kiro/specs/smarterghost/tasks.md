@@ -20,7 +20,7 @@ pipeline before any feature work.
 - [x] **1.6** Create `public/index.html` placeholder with title "SmarterGhost" and a single `<h1>SmarterGhost online</h1>`. *(US-1.1 — minimal)*
 - [x] **1.7** Create `vitest.config.ts` with node environment, include patterns for `src/**/*.test.ts` and `test/**/*.test.ts`, and v8 coverage. *(design §8.6)*
 - [ ] **1.8** Run `npx wrangler dev` locally, verify `GET /` returns the placeholder page. *(verification)*
-- [ ] **1.9** Run `npx wrangler deploy`, verify the deployed URL returns the placeholder page. *(verification — early deployability)*
+- [x] **1.9** Run `npx wrangler deploy`, verify the deployed URL returns the placeholder page. *(verification — early deployability)*
 
 ---
 

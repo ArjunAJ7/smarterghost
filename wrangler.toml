@@ -14,5 +14,4 @@ binding = "AI"
 # Workers KV namespace — placeholder IDs filled at deploy time
 [[kv_namespaces]]
 binding = "GHOST_KV"
-id = "<filled-at-deploy>"
-preview_id = "<filled-at-deploy>"
+id = "c00d234cef3948c991f0511b4331c526"
