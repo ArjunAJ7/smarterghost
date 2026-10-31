@@ -203,3 +203,21 @@ describe("GET /api/poll-reminders", () => {
     expect(remaining.map((r) => r.id)).toEqual(["def456"]);
   });
 });
+
+describe("away auto-clear vs /back (US-4.2, US-4.3)", () => {
+  it("/back sees the away state and welcomes the user back", async () => {
+    const { env, kv } = makeEnv();
+    kv.store.set(
+      "session:sess-1:away",
+      JSON.stringify({ message: "brb", setAt: Date.now() }),
+    );
+    const res = await worker.fetch(
+      req("POST", "/api/chat", { input: "/back" }),
+      env,
+    );
+    const out = await res.text();
+    expect(out).toContain("Welcome back");
+    expect(out).toContain("brb");
+    expect(kv.store.has("session:sess-1:away")).toBe(false);
+  });
+});

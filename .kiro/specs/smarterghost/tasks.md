@@ -87,7 +87,7 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 - [x] **3.22** Wire `POST /api/away` in `worker.ts` — set/clear away status via KV adapter. *(US-4.1, design §1.2)*
 - [x] **3.23** Wire `GET /api/poll-reminders` in `worker.ts` — SSE endpoint that reads reminders, emits due reminders every 15s, removes fired reminders from KV. *(US-5.2, US-5.5, design §1.2, §4.4)*
 - [x] **3.24** Write `src/worker.test.ts` — unit tests for route dispatching (mock env bindings). *(design §8.2)*
-- [ ] **3.25** Run `npm test` — all unit tests pass. Then run `npx wrangler dev` and manually test `/api/chat` with `curl`. *(verification)*
+- [x] **3.25** Run `npm test` — all unit tests pass. Then run `npx wrangler dev` and manually test `/api/chat` with `curl`. *(verification)*
 
 ---
 

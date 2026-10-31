@@ -64,12 +64,13 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
   const input = body.input?.trim();
   if (!input) return jsonError(400, "Missing input");
 
-  // US-4.2: any user message auto-clears the away status.
-  if (await getAwayState(env.GHOST_KV, sid)) {
+  const route = routeInput(input);
+
+  // US-4.2: any user message auto-clears the away status — except /back,
+  // which clears it explicitly and reports the previous away message.
+  if (route.command !== "back" && (await getAwayState(env.GHOST_KV, sid))) {
     await clearAwayState(env.GHOST_KV, sid);
   }
-
-  const route = routeInput(input);
 
   if (route.kind === "ai") {
     const stream = await streamAIResponse(env, body.history ?? [], sid);
