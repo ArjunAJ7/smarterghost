@@ -8,13 +8,15 @@
     "dev": "wrangler dev",
     "test": "vitest run",
     "deploy": "wrangler deploy",
-    "build:ui": "esbuild src/ui/App.ts --bundle --format=esm --target=es2022 --outfile=public/app.js"
+    "build:ui": "esbuild src/ui/App.ts --bundle --format=esm --target=es2022 --outfile=public/app.js",
+    "record:demo": "node scripts/record-demo.mjs"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241011.0",
     "@fast-check/vitest": "^0.5.0",
     "esbuild": "^0.28.2",
     "fast-check": "^4.10.2",
+    "puppeteer-core": "^25.16.0",
     "typescript": "^5.6.3",
     "vitest": "^5.0.0",
     "wrangler": "^3.86.0"
