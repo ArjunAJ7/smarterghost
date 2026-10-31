@@ -235,13 +235,17 @@ body {
 
   #buddy-list-container {
     width: 100%;
-    max-height: 40px;
-    overflow: hidden;
-    transition: max-height 0.2s ease;
   }
 
-  #buddy-list-container.expanded {
-    max-height: 50vh;
+  /* Clean collapse: only the title bar shows until tapped (US-6.1). */
+  #buddy-list-container .buddy-groups {
+    display: none;
+  }
+
+  #buddy-list-container.expanded .buddy-groups {
+    display: block;
+    max-height: 40vh;
+    overflow-y: auto;
   }
 
   #chat-container {
