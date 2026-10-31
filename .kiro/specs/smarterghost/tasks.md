@@ -98,30 +98,30 @@ buddy list, away banner, sounds, and mobile responsiveness.
 
 ### 4A — HTML Shell & CSS
 
-- [ ] **4.1** Replace `public/index.html` with the SPA shell: container divs for BuddyList, ChatWindow, andAwayBanner, script tag for `app.js`. *(US-1.1)*
-- [ ] **4.2** Create `public/aim.css` with CSS custom properties for the AIM palette (blues, yellows, grays, beige bg), font stack (Tahoma/Verdana/MS Sans Serif), and Win95 window chrome styling (2px outset borders, gradient title bars, min/close buttons). *(US-1.1, US-1.4, design §3.3)*
-- [ ] **4.3** Add `@media (max-width: 768px)` rules: buddy list and chat stack vertically, buddy list collapses to 40px header. *(US-6.1, design §3.4)*
+- [x] **4.1** Replace `public/index.html` with the SPA shell: container divs for BuddyList, ChatWindow, andAwayBanner, script tag for `app.js`. *(US-1.1)*
+- [x] **4.2** Create `public/aim.css` with CSS custom properties for the AIM palette (blues, yellows, grays, beige bg), font stack (Tahoma/Verdana/MS Sans Serif), and Win95 window chrome styling (2px outset borders, gradient title bars, min/close buttons). *(US-1.1, US-1.4, design §3.3)*
+- [x] **4.3** Add `@media (max-width: 768px)` rules: buddy list and chat stack vertically, buddy list collapses to 40px header. *(US-6.1, design §3.4)*
 
 ### 4B — Frontend Build Setup
 
-- [ ] **4.4** Configure an esbuild/bundler step in `package.json` to compile `src/ui/*.ts` → `public/app.js` (ESM, target ES2022). Add `build:ui` script. *(infra)*
-- [ ] **4.5** Create `src/ui/App.ts` — root component that instantiates BuddyList, ChatWindow, AwayMessageBanner, ChatInputBar, SoundToggle; manages shared state (session ID, away status, screen name). *(design §3.1)*
+- [x] **4.4** Configure an esbuild/bundler step in `package.json` to compile `src/ui/*.ts` → `public/app.js` (ESM, target ES2022). Add `build:ui` script. *(infra)*
+- [x] **4.5** Create `src/ui/App.ts` — root component that instantiates BuddyList, ChatWindow, AwayMessageBanner, ChatInputBar, SoundToggle; manages shared state (session ID, away status, screen name). *(design §3.1)*
 
 ### 4C — UI Components
 
-- [ ] **4.6** Create `src/ui/BuddyList.ts` — renders buddy list window with Online/Away/Offline groups, Win95 chrome, SmarterGhost always online, user's screen name moves to Away group when away. Double-click bot opens chat window. *(US-1.1, US-1.2, US-4.4, design §3.2)*
-- [ ] **4.7** Create `src/ui/ChatWindow.ts` — chat window with blue header, transcript area, typing indicator ("SmarterGhost is typing…"), `appendMessage` and `appendPartial` methods for streaming. User messages in blue, bot in black, AIM-style timestamps (HH:MM 12-hour). *(US-1.1, US-1.3, US-2.4, design §3.2, §5.4)*
-- [ ] **4.8** Create `src/ui/ChatInputBar.ts` — yellow AIM input bar, fires `onSend(text)` on Enter or Send button. Uses `position: sticky; bottom: 0` + `visualViewport` API on mobile. Minimum 14px font. *(US-1.3, US-6.2, US-6.3, design §3.2, §3.4)*
-- [ ] **4.9** Create `src/ui/AwayMessageBanner.ts` — thin yellow banner at top of chat window shown when user is away, displays away message text. *(US-4.4, design §3.2)*
-- [ ] **4.10** Create `src/ui/SoundToggle.ts` — opt-in toggle button (default off) for retro AIM sounds. Uses `Audio` API. *(US-1.4, design §3.3)*
+- [x] **4.6** Create `src/ui/BuddyList.ts` — renders buddy list window with Online/Away/Offline groups, Win95 chrome, SmarterGhost always online, user's screen name moves to Away group when away. Double-click bot opens chat window. *(US-1.1, US-1.2, US-4.4, design §3.2)*
+- [x] **4.7** Create `src/ui/ChatWindow.ts` — chat window with blue header, transcript area, typing indicator ("SmarterGhost is typing…"), `appendMessage` and `appendPartial` methods for streaming. User messages in blue, bot in black, AIM-style timestamps (HH:MM 12-hour). *(US-1.1, US-1.3, US-2.4, design §3.2, §5.4)*
+- [x] **4.8** Create `src/ui/ChatInputBar.ts` — yellow AIM input bar, fires `onSend(text)` on Enter or Send button. Uses `position: sticky; bottom: 0` + `visualViewport` API on mobile. Minimum 14px font. *(US-1.3, US-6.2, US-6.3, design §3.2, §3.4)*
+- [x] **4.9** Create `src/ui/AwayMessageBanner.ts` — thin yellow banner at top of chat window shown when user is away, displays away message text. *(US-4.4, design §3.2)*
+- [x] **4.10** Create `src/ui/SoundToggle.ts` — opt-in toggle button (default off) for retro AIM sounds. Uses `Audio` API. *(US-1.4, design §3.3)*
 
 ### 4D — Client-Side Logic
 
-- [ ] **4.11** Implement session management in `App.ts` — generate UUID, store in `localStorage`, send as `X-Session-Id` on all API calls. Auto-generate on first load. *(design §1.4, §4.1)*
-- [ ] **4.12** Implement `streamChat(text)` in `ChatWindow.ts` — POST to `/api/chat` with text + last 10 messages as history, parse SSE stream, call `appendPartial` for `token` events, clear typing indicator on `done`, show fallback on `error`. *(US-2.1, US-2.3, US-2.4, US-5.6, design §5.4–5.6)*
-- [ ] **4.13** Implement client-side conversation history in `localStorage` — store last N messages, send with each request, no server-side persistence. *(design §5.6)*
-- [ ] **4.14** Implement reminder polling in `App.ts` — open SSE connection to `/api/poll-reminders`, display due reminders in chat window, play alert sound if enabled. Reconnect on drop. *(US-5.2, US-5.5, design §4.4)*
-- [ ] **4.15** Implement away-status UI sync — when `/away` or `/back` is used, update BuddyList grouping, show/hide AwayMessageBanner, POST to `/api/away`. Auto-clear away on any sent message. *(US-4.1, US-4.2, US-4.3, US-4.4)*
+- [x] **4.11** Implement session management in `App.ts` — generate UUID, store in `localStorage`, send as `X-Session-Id` on all API calls. Auto-generate on first load. *(design §1.4, §4.1)*
+- [x] **4.12** Implement `streamChat(text)` in `ChatWindow.ts` — POST to `/api/chat` with text + last 10 messages as history, parse SSE stream, call `appendPartial` for `token` events, clear typing indicator on `done`, show fallback on `error`. *(US-2.1, US-2.3, US-2.4, US-5.6, design §5.4–5.6)*
+- [x] **4.13** Implement client-side conversation history in `localStorage` — store last N messages, send with each request, no server-side persistence. *(design §5.6)*
+- [x] **4.14** Implement reminder polling in `App.ts` — open SSE connection to `/api/poll-reminders`, display due reminders in chat window, play alert sound if enabled. Reconnect on drop. *(US-5.2, US-5.5, design §4.4)*
+- [x] **4.15** Implement away-status UI sync — when `/away` or `/back` is used, update BuddyList grouping, show/hide AwayMessageBanner, POST to `/api/away`. Auto-clear away on any sent message. *(US-4.1, US-4.2, US-4.3, US-4.4)*
 - [ ] **4.16** Build `app.js` via the bundler and verify it loads in the browser with `npx wrangler dev`. *(verification)*
 
 ---

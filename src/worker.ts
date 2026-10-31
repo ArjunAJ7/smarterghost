@@ -133,7 +133,10 @@ async function handlePollReminders(
   request: Request,
   env: Env,
 ): Promise<Response> {
-  const sid = requireSessionId(request);
+  // EventSource cannot set headers, so this endpoint also accepts ?sid=.
+  const url = new URL(request.url);
+  const sidParam = url.searchParams.get("sid");
+  const sid = sidParam ?? requireSessionId(request);
   if (sid instanceof Response) return sid;
 
   const encoder = new TextEncoder();
