@@ -30,14 +30,14 @@ Goal: the pure-logic layer (input routing + duration parsing) fully tested
 before any I/O or UI. These functions have no external dependencies, making
 them ideal for property-based testing.
 
-- [ ] **2.1** Create `src/commands/parser.ts` with `routeInput(input): { kind: "command" | "ai"; command?: string; args?: string }` — trims input, checks for leading `/`, tokenizes command name + remainder. *(US-3.5, design §2.1–2.3)*
-- [ ] **2.2** Create `src/commands/registry.ts` with `CommandSpec`, `CommandContext`, `CommandResult` interfaces and a `COMMAND_REGISTRY: Map<string, CommandSpec>` (initially empty, populated in Phase 3). Include alias resolution. *(design §2.2, §2.4)*
-- [ ] **2.3** Create `src/commands/remind.ts` exporting `parseDuration(input: string): ParsedDuration` — regex-based tokenizer for `s/m/h/d` units, sums to milliseconds, validates 1s min / 30d max. Pure function, no I/O. *(US-5.1, design §2.5)*
-- [ ] **2.4** Write `src/commands/duration.test.ts` — unit tests: `30m`→1,800,000 ms, `1h30m`→5,400,000 ms, `2d4h`→187,200,000 ms, `""`→error, `"abc"`→error, `"0s"`→error, `"31d"`→error. *(US-5.1, design §8.2)*
-- [ ] **2.5** Write `src/commands/duration.property.test.ts` — property: valid tokens produce positive ms; combined durations sum; garbage input never succeeds; result never exceeds 30 days. *(US-5.1, design §8.3)*
-- [ ] **2.6** Write `src/commands/parser.test.ts` — unit tests for each known command: valid args, missing args, empty args, whitespace edge cases, unknown command → help. *(US-3.5, design §8.2)*
-- [ ] **2.7** Write `src/commands/parser.property.test.ts` — property: slash input always routes to command; non-slash always routes to AI; unknown command returns help; command names are case-insensitive. *(US-3.5, design §8.3)*
-- [ ] **2.8** Run `npm test` — all parser and duration tests must pass. *(verification)*
+- [x] **2.1** Create `src/commands/parser.ts` with `routeInput(input): { kind: "command" | "ai"; command?: string; args?: string }` — trims input, checks for leading `/`, tokenizes command name + remainder. *(US-3.5, design §2.1–2.3)*
+- [x] **2.2** Create `src/commands/registry.ts` with `CommandSpec`, `CommandContext`, `CommandResult` interfaces and a `COMMAND_REGISTRY: Map<string, CommandSpec>` (initially empty, populated in Phase 3). Include alias resolution. *(design §2.2, §2.4)*
+- [x] **2.3** Create `src/commands/remind.ts` exporting `parseDuration(input: string): ParsedDuration` — regex-based tokenizer for `s/m/h/d` units, sums to milliseconds, validates 1s min / 30d max. Pure function, no I/O. *(US-5.1, design §2.5)*
+- [x] **2.4** Write `src/commands/duration.test.ts` — unit tests: `30m`→1,800,000 ms, `1h30m`→5,400,000 ms, `2d4h`→187,200,000 ms, `""`→error, `"abc"`→error, `"0s"`→error, `"31d"`→error. *(US-5.1, design §8.2)*
+- [x] **2.5** Write `src/commands/duration.property.test.ts` — property: valid tokens produce positive ms; combined durations sum; garbage input never succeeds; result never exceeds 30 days. *(US-5.1, design §8.3)*
+- [x] **2.6** Write `src/commands/parser.test.ts` — unit tests for each known command: valid args, missing args, empty args, whitespace edge cases, unknown command → help. *(US-3.5, design §8.2)*
+- [x] **2.7** Write `src/commands/parser.property.test.ts` — property: slash input always routes to command; non-slash always routes to AI; unknown command returns help; command names are case-insensitive. *(US-3.5, design §8.3)*
+- [x] **2.8** Run `npm test` — all parser and duration tests must pass. *(verification)*
 
 ---
 
