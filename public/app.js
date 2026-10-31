@@ -269,7 +269,9 @@ var App = class {
       kind: "user"
     });
   }
+  lastUserText = "";
   async onSend(text) {
+    this.lastUserText = text;
     this.appendUser(text);
     this.history.push({ role: "user", content: text });
     saveHistory(this.history);
@@ -342,14 +344,28 @@ var App = class {
             this.syncAwayFromCommand(parsed.text);
           } else if (event === "error") {
             this.chat.setTyping(false);
+            const errId = crypto.randomUUID();
             this.chat.appendMessage({
-              id: crypto.randomUUID(),
+              id: errId,
               author: "SmarterGhost",
               text: parsed.message,
               timestamp: /* @__PURE__ */ new Date(),
               isSelf: false,
               kind: "error"
             });
+            if (/everyone is talking to me at once/.test(parsed.message)) {
+              const errEl = document.querySelector(
+                `[data-message-id="${errId}"] .text`
+              );
+              const btn = document.createElement("button");
+              btn.textContent = "Try again";
+              btn.style.marginLeft = "8px";
+              btn.addEventListener("click", () => {
+                btn.remove();
+                void this.onSend(this.lastUserText);
+              });
+              errEl?.appendChild(btn);
+            }
           } else if (event === "done") {
           }
         } catch {

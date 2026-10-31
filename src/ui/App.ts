@@ -83,7 +83,10 @@ class App {
     });
   }
 
+  private lastUserText = "";
+
   private async onSend(text: string): Promise<void> {
+    this.lastUserText = text;
     this.appendUser(text);
     this.history.push({ role: "user", content: text });
     saveHistory(this.history);
@@ -161,14 +164,29 @@ class App {
             this.syncAwayFromCommand(parsed.text);
           } else if (event === "error") {
             this.chat.setTyping(false);
+            const errId = crypto.randomUUID();
             this.chat.appendMessage({
-              id: crypto.randomUUID(),
+              id: errId,
               author: "SmarterGhost",
               text: parsed.message,
               timestamp: new Date(),
               isSelf: false,
               kind: "error",
             });
+            // US-7.2 / design §7.3: manual "Try again", no auto-retry.
+            if (/everyone is talking to me at once/.test(parsed.message)) {
+              const errEl = document.querySelector(
+                `[data-message-id="${errId}"] .text`,
+              );
+              const btn = document.createElement("button");
+              btn.textContent = "Try again";
+              btn.style.marginLeft = "8px";
+              btn.addEventListener("click", () => {
+                btn.remove();
+                void this.onSend(this.lastUserText);
+              });
+              errEl?.appendChild(btn);
+            }
           } else if (event === "done") {
             // stream finalized
           }

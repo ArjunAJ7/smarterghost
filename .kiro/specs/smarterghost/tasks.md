@@ -131,8 +131,8 @@ buddy list, away banner, sounds, and mobile responsiveness.
 Goal: error handling, rate-limit degradation, cache headers, sound assets,
 integration tests, and final verification.
 
-- [ ] **5.1** Implement in-character fallback messages for all error categories (AI error/timeout, rate-limited, external API failures, KV errors, parse errors) in a shared `src/fallbacks.ts`. Wire into all command handlers and AI handler. *(US-2.3, US-7.2, design §7.1–7.2)*
-- [ ] **5.2** Implement rate-limit degradation for Workers AI 429 — catch error, emit SSE `error` event with `ai_rate_limited` fallback, show "Try again" button in chat. No auto-retry. *(US-7.2, design §7.3)*
+- [x] **5.1** Implement in-character fallback messages for all error categories (AI error/timeout, rate-limited, external API failures, KV errors, parse errors) in a shared `src/fallbacks.ts`. Wire into all command handlers and AI handler. *(US-2.3, US-7.2, design §7.1–7.2)*
+- [x] **5.2** Implement rate-limit degradation for Workers AI 429 — catch error, emit SSE `error` event with `ai_rate_limited` fallback, show "Try again" button in chat. No auto-retry. *(US-7.2, design §7.3)*
 - [x] **5.3** Implement KV write-failure graceful degradation — reminder creation echoes text even if KV fails, away status falls back to client-side. *(US-7.2, design §7.3)*
 - [x] **5.4** Set `Cache-Control: public, max-age=3600, s-maxage=86400` on static asset responses in the Worker. *(US-7.3, design §1.2)*
 - [x] **5.5** Add `AbortController` with 5s timeout (`fetchWithTimeout`) to all external API calls (weather, wiki, define, news). Add `User-Agent: SmarterGhost/1.0` header. *(US-7.1, design §7.4–7.5)*
