@@ -100,7 +100,8 @@ describe("remindHandler — list (US-5.4)", () => {
     const r = await remindHandler("list", c);
     const text = String(r.payload);
     expect(text.indexOf("sooner one")).toBeLessThan(text.indexOf("later one"));
-    expect(text).toContain("in 10 minutes");
+    // Tolerate a second boundary crossing between create and list.
+    expect(text).toMatch(/in (9|10) minutes/);
   });
 
   it("shows an empty-state message when no reminders exist", async () => {
