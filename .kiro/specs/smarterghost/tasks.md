@@ -48,8 +48,8 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 
 ### 3A — KV Adapter
 
-- [ ] **3.1** Create `src/kv.ts` with functions: `getReminders(kv, sessionId)`, `saveReminders(kv, sessionId, reminders)`, `addReminder(...)`, `cancelReminder(kv, sessionId, id)`, `getAwayState(kv, sessionId)`, `setAwayState(kv, sessionId, msg)`, `clearAwayState(kv, sessionId)`, `getScreenName(kv, sessionId)`, `setScreenName(kv, sessionId, name)`. Uses namespaced keys per design §4.1. *(US-4.1, US-5.1, US-5.4, US-5.5, design §4.1–4.3)*
-- [ ] **3.2** Write `src/kv.test.ts` using an in-memory mock implementing `KVNamespace` — test reminder create/list/cancel, away set/clear, TTL behaviour. *(US-5.1, US-5.4, design §8.2)*
+- [x] **3.1** Create `src/kv.ts` with functions: `getReminders(kv, sessionId)`, `saveReminders(kv, sessionId, reminders)`, `addReminder(...)`, `cancelReminder(kv, sessionId, id)`, `getAwayState(kv, sessionId)`, `setAwayState(kv, sessionId, msg)`, `clearAwayState(kv, sessionId)`, `getScreenName(kv, sessionId)`, `setScreenName(kv, sessionId, name)`. Uses namespaced keys per design §4.1. *(US-4.1, US-5.1, US-5.4, US-5.5, design §4.1–4.3)*
+- [x] **3.2** Write `src/kv.test.ts` using an in-memory mock implementing `KVNamespace` — test reminder create/list/cancel, away set/clear, TTL behaviour. *(US-5.1, US-5.4, design §8.2)*
 
 ### 3B — Utility Commands
 
