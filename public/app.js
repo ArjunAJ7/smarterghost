@@ -31,19 +31,19 @@ var BuddyList = class {
     groups.innerHTML = `
       <div class="buddy-group-header">Online (1)</div>
       <div class="buddy-row" data-bot="1">
-        <span class="buddy-icon" style="background:green;border-radius:50%"></span>
+        <img class="buddy-icon" src="assets/icons/buddy_online.png" alt="online" />
         <span>SmarterGhost</span>
       </div>
       <div class="buddy-group-header">Away (${youAway ? 1 : 0})</div>
       ${youAway ? `
       <div class="buddy-row">
-        <span class="buddy-icon" style="background:var(--aim-yellow)"></span>
+        <img class="buddy-icon" src="assets/icons/buddy_away.png" alt="away" />
         <span>You (${this.awayMessage})</span>
       </div>` : ""}
       <div class="buddy-group-header">Offline (${youAway ? 0 : 1})</div>
       ${youAway ? "" : `
       <div class="buddy-row buddy-offline">
-        <span class="buddy-icon" style="background:#999;border-radius:50%"></span>
+        <img class="buddy-icon" src="assets/icons/buddy_offline.png" alt="offline" />
         <span>You</span>
       </div>`}
     `;

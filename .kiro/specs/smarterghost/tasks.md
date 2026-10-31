@@ -134,10 +134,10 @@ integration tests, and final verification.
 - [ ] **5.1** Implement in-character fallback messages for all error categories (AI error/timeout, rate-limited, external API failures, KV errors, parse errors) in a shared `src/fallbacks.ts`. Wire into all command handlers and AI handler. *(US-2.3, US-7.2, design §7.1–7.2)*
 - [ ] **5.2** Implement rate-limit degradation for Workers AI 429 — catch error, emit SSE `error` event with `ai_rate_limited` fallback, show "Try again" button in chat. No auto-retry. *(US-7.2, design §7.3)*
 - [ ] **5.3** Implement KV write-failure graceful degradation — reminder creation echoes text even if KV fails, away status falls back to client-side. *(US-7.2, design §7.3)*
-- [ ] **5.4** Set `Cache-Control: public, max-age=3600, s-maxage=86400` on static asset responses in the Worker. *(US-7.3, design §1.2)*
-- [ ] **5.5** Add `AbortController` with 5s timeout (`fetchWithTimeout`) to all external API calls (weather, wiki, define, news). Add `User-Agent: SmarterGhost/1.0` header. *(US-7.1, design §7.4–7.5)*
-- [ ] **5.6** Create or source `public/assets/sounds/im_receive.wav` and `door_open.wav` — short retro AIM sounds. *(US-1.4, design §3.3)*
-- [ ] **5.7** Create `public/assets/icons/` with `buddy_online.png`, `buddy_away.png`, `buddy_offline.png` — small period-appropriate status icons. *(US-1.1, design §3.3)*
+- [x] **5.4** Set `Cache-Control: public, max-age=3600, s-maxage=86400` on static asset responses in the Worker. *(US-7.3, design §1.2)*
+- [x] **5.5** Add `AbortController` with 5s timeout (`fetchWithTimeout`) to all external API calls (weather, wiki, define, news). Add `User-Agent: SmarterGhost/1.0` header. *(US-7.1, design §7.4–7.5)*
+- [x] **5.6** Create or source `public/assets/sounds/im_receive.wav` and `door_open.wav` — short retro AIM sounds. *(US-1.4, design §3.3)*
+- [x] **5.7** Create `public/assets/icons/` with `buddy_online.png`, `buddy_away.png`, `buddy_offline.png` — small period-appropriate status icons. *(US-1.1, design §3.3)*
 - [ ] **5.8** Write `test/integration.test.ts` using `unstable_dev` — test: serves index page, returns SSE for chat, handles `/weather`, handles `/remind` round-trip via KV. *(US-2.1, US-3.1, US-5.1, design §8.4)*
 - [ ] **5.9** Run full test suite `npm test` — all unit + property + integration tests pass. *(verification)*
 - [ ] **5.10** Run `npx wrangler deploy` and manually verify all features on the deployed URL: chat, slash commands, reminders, away messages, mobile layout, sounds toggle. *(verification — final deployability)*
