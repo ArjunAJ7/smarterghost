@@ -81,6 +81,25 @@ describe("weatherHandler", () => {
     expect(String(fetchMock.mock.calls[1][0])).toContain("latitude=9.93");
   });
 
+  it("honors an explicit region over population", async () => {
+    const ambiguous = {
+      results: [
+        { latitude: 33.5, longitude: 133.5, name: "Kochi", admin1: "Kochi", country: "Japan", population: 332059 },
+        { latitude: 9.93, longitude: 76.27, name: "Kochi", admin1: "Kerala", country: "India", population: 633553 },
+      ],
+    };
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(jsonResponse(ambiguous))
+      .mockResolvedValueOnce(jsonResponse(FORECAST));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const r = await weatherHandler("kochi, japan");
+    expect(r.kind).toBe("text");
+    expect(r.payload).toContain("Weather for Kochi, Japan:");
+    expect(String(fetchMock.mock.calls[1][0])).toContain("latitude=33.5");
+  });
+
   it("replies in-character when geocoding finds nothing", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({ results: [] })));
     const r = await weatherHandler("zzz-not-a-place");

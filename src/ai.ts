@@ -29,6 +29,8 @@ export interface ChatMessage {
 
 const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 const MAX_HISTORY = 20; // keep the prompt small; older turns are dropped
+const MAX_MSG_CHARS = 1000; // bound input tokens so a turn can't drain the daily free quota
+const MAX_OUTPUT_TOKENS = 256; // persona answers are 2-4 sentences; bounds worst-case neuron cost
 
 /** Build the Llama message array: system prompt + recent history. */
 export function buildLlamaMessages(
@@ -36,7 +38,10 @@ export function buildLlamaMessages(
 ): { role: string; content: string }[] {
   return [
     { role: "system", content: SYSTEM_PROMPT },
-    ...messages.slice(-MAX_HISTORY),
+    ...messages.slice(-MAX_HISTORY).map((m) => ({
+      role: m.role,
+      content: m.content.slice(0, MAX_MSG_CHARS),
+    })),
   ];
 }
 
@@ -122,7 +127,7 @@ export async function streamAIResponse(
     const response = (await env.AI.run(MODEL, {
       messages: buildLlamaMessages(messages),
       stream: true,
-      max_tokens: 512,
+      max_tokens: MAX_OUTPUT_TOKENS,
     })) as unknown as ReadableStream<Uint8Array>;
     return transformToSSE(response);
   } catch (err) {

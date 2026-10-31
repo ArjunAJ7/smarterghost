@@ -63,6 +63,7 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
   }
   const input = body.input?.trim();
   if (!input) return jsonError(400, "Missing input");
+  if (input.length > 1000) return jsonError(400, "Message too long (max 1000 chars)");
 
   const route = routeInput(input);
 

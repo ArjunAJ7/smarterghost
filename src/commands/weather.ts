@@ -86,10 +86,24 @@ export async function weatherHandler(
     };
   }
 
-  // Ambiguous names (e.g. Kochi, India vs Kochi, Japan): prefer the
-  // largest-population match rather than the API's first hit.
-  const place = geo.results
-    ?.slice()
+  // Explicit region wins: "kochi, japan" restricts to results whose
+  // country/admin1/name matches the part after the comma. Otherwise prefer
+  // the largest-population match rather than the API's first hit (the
+  // country is always shown in the label, so the choice is visible).
+  const regionQuery = location.includes(",")
+    ? location.split(",").slice(1).join(" ").trim().toLowerCase()
+    : undefined;
+  let candidates = geo.results ?? [];
+  if (regionQuery) {
+    const matched = candidates.filter((r) =>
+      [r.country, r.admin1, r.name].some(
+        (f) => f && (f.toLowerCase().includes(regionQuery) || regionQuery.includes(f.toLowerCase())),
+      ),
+    );
+    if (matched.length > 0) candidates = matched;
+  }
+  const place = candidates
+    .slice()
     .sort((a, b) => (b.population ?? 0) - (a.population ?? 0))[0];
   if (!place) {
     return {
