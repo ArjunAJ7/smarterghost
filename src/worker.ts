@@ -182,8 +182,12 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    if (request.method === "GET" && url.pathname === "/") {
-      return env.ASSETS.fetch(request);
+    if (request.method === "GET" && (url.pathname === "/" || !url.pathname.startsWith("/api/"))) {
+      const assetRes = await env.ASSETS.fetch(request);
+      // US-7.3 / design §1.2: cache static assets at the edge and in browsers.
+      const headers = new Headers(assetRes.headers);
+      headers.set("Cache-Control", "public, max-age=3600, s-maxage=86400");
+      return new Response(assetRes.body, { status: assetRes.status, headers });
     }
     if (request.method === "POST" && url.pathname === "/api/chat") {
       return handleChat(request, env);

@@ -6,6 +6,8 @@ import type { CommandResult } from "./registry";
 const SUMMARY_URL = "https://en.wikipedia.org/api/rest_v1/page/summary";
 const SEARCH_URL = "https://en.wikipedia.org/w/rest.php/v1/search/title";
 const TIMEOUT_MS = 5_000;
+const USER_AGENT = "SmarterGhost/1.0 (+https://smarterghost.arjun-vinod0028.workers.dev)";
+
 const MAX_WORDS = 300;
 
 /** Truncate to at most `max` words, splitting on word boundaries (US-3.2). */
@@ -21,7 +23,7 @@ async function fetchJsonOrStatus(
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const res = await fetch(url, { signal: ctrl.signal });
+    const res = await fetch(url, { signal: ctrl.signal, headers: { "user-agent": USER_AGENT } });
     if (!res.ok) return { status: res.status };
     return { status: res.status, body: await res.json() };
   } finally {

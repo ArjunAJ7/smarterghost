@@ -6,6 +6,8 @@ import type { CommandResult } from "./registry";
 const GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search";
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
 const TIMEOUT_MS = 5_000;
+const USER_AGENT = "SmarterGhost/1.0 (+https://smarterghost.arjun-vinod0028.workers.dev)";
+
 
 /** WMO weather code → human-readable text (design §6.1). */
 const WMO_CODES: Record<number, string> = {
@@ -55,7 +57,7 @@ async function fetchJson(url: string): Promise<unknown> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const res = await fetch(url, { signal: ctrl.signal });
+    const res = await fetch(url, { signal: ctrl.signal, headers: { "user-agent": USER_AGENT } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } finally {

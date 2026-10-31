@@ -30,7 +30,15 @@ class MockKV {
 function makeEnv(overrides: Partial<Env> = {}): { env: Env; kv: MockKV } {
   const kv = new MockKV();
   const env = {
-    ASSETS: { fetch: async () => new Response("<html>spa</html>") },
+    ASSETS: {
+      fetch: async (r: Request) => {
+        const path = new URL(r.url).pathname;
+        if (path === "/" || path === "/app.js" || path === "/aim.css") {
+          return new Response("<html>spa</html>", { status: 200 });
+        }
+        return new Response("Not Found", { status: 404 });
+      },
+    },
     AI: {
       run: async () =>
         new ReadableStream<Uint8Array>({
