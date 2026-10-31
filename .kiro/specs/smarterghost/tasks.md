@@ -83,10 +83,10 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 
 ### 3F — Worker Route Wiring
 
-- [ ] **3.21** Wire `POST /api/chat` in `worker.ts` — read `X-Session-Id`, parse input via `routeInput`, dispatch to command handler or AI handler, return SSE stream. Auto-clear away status on any user message. *(US-2.1, US-3.1–3.5, US-4.2, design §1.2)*
-- [ ] **3.22** Wire `POST /api/away` in `worker.ts` — set/clear away status via KV adapter. *(US-4.1, design §1.2)*
-- [ ] **3.23** Wire `GET /api/poll-reminders` in `worker.ts` — SSE endpoint that reads reminders, emits due reminders every 15s, removes fired reminders from KV. *(US-5.2, US-5.5, design §1.2, §4.4)*
-- [ ] **3.24** Write `src/worker.test.ts` — unit tests for route dispatching (mock env bindings). *(design §8.2)*
+- [x] **3.21** Wire `POST /api/chat` in `worker.ts` — read `X-Session-Id`, parse input via `routeInput`, dispatch to command handler or AI handler, return SSE stream. Auto-clear away status on any user message. *(US-2.1, US-3.1–3.5, US-4.2, design §1.2)*
+- [x] **3.22** Wire `POST /api/away` in `worker.ts` — set/clear away status via KV adapter. *(US-4.1, design §1.2)*
+- [x] **3.23** Wire `GET /api/poll-reminders` in `worker.ts` — SSE endpoint that reads reminders, emits due reminders every 15s, removes fired reminders from KV. *(US-5.2, US-5.5, design §1.2, §4.4)*
+- [x] **3.24** Write `src/worker.test.ts` — unit tests for route dispatching (mock env bindings). *(design §8.2)*
 - [ ] **3.25** Run `npm test` — all unit tests pass. Then run `npx wrangler dev` and manually test `/api/chat` with `curl`. *(verification)*
 
 ---
