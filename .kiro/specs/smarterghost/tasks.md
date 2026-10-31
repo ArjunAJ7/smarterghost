@@ -53,10 +53,10 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 
 ### 3B — Utility Commands
 
-- [ ] **3.3** Create `src/commands/weather.ts` — geocode via Open-Meteo, fetch current conditions, map WMO weather codes to text, format output string. 5s `AbortController` timeout. *(US-3.1, design §6.1)*
-- [ ] **3.4** Write `src/commands/weather.test.ts` — test with mocked fetch responses: valid weather, geocode miss, API timeout. *(US-3.1, design §8.2)*
-- [ ] **3.5** Create `src/commands/wiki.ts` — fetch Wikipedia REST summary, truncate extract to ≤300 words on word boundaries, format with title + link. 404 fallback to search redirect. *(US-3.2, design §6.2)*
-- [ ] **3.6** Write `src/commands/wiki.test.ts` — test: valid summary, truncation at 300 words, 404 fallback, not-found message. *(US-3.2, design §8.2)*
+- [x] **3.3** Create `src/commands/weather.ts` — geocode via Open-Meteo, fetch current conditions, map WMO weather codes to text, format output string. 5s `AbortController` timeout. *(US-3.1, design §6.1)*
+- [x] **3.4** Write `src/commands/weather.test.ts` — test with mocked fetch responses: valid weather, geocode miss, API timeout. *(US-3.1, design §8.2)*
+- [x] **3.5** Create `src/commands/wiki.ts` — fetch Wikipedia REST summary, truncate extract to ≤300 words on word boundaries, format with title + link. 404 fallback to search redirect. *(US-3.2, design §6.2)*
+- [x] **3.6** Write `src/commands/wiki.test.ts` — test: valid summary, truncation at 300 words, 404 fallback, not-found message. *(US-3.2, design §8.2)*
 - [ ] **3.7** Create `src/commands/define.ts` — fetch Free Dictionary API, format multiple meanings with POS tags and phonetic. *(US-3.3, design §6.3)*
 - [ ] **3.8** Write `src/commands/define.test.ts` — test: valid entry with multiple meanings, 404 fallback, missing phonetic. *(US-3.3, design §8.2)*
 - [ ] **3.9** Create `src/commands/news.ts` — fetch HN Algolia front-page, format top 5 headlines with points + links. *(US-3.4, design §6.4)*

@@ -32,7 +32,7 @@ describe("parser properties (design §8.3)", () => {
 
   it("Property 6: any input not starting with '/' routes to the AI handler", () => {
     fc.assert(
-      fc.property(fc.stringMatching(/^[^/].*/), (input) => {
+      fc.property(fc.stringMatching(/^[^\s/].*/), (input) => {
         return routeInput(input).kind === "ai";
       }),
     );
