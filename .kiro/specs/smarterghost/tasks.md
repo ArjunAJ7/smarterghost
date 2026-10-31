@@ -138,6 +138,6 @@ integration tests, and final verification.
 - [x] **5.5** Add `AbortController` with 5s timeout (`fetchWithTimeout`) to all external API calls (weather, wiki, define, news). Add `User-Agent: SmarterGhost/1.0` header. *(US-7.1, design §7.4–7.5)*
 - [x] **5.6** Create or source `public/assets/sounds/im_receive.wav` and `door_open.wav` — short retro AIM sounds. *(US-1.4, design §3.3)*
 - [x] **5.7** Create `public/assets/icons/` with `buddy_online.png`, `buddy_away.png`, `buddy_offline.png` — small period-appropriate status icons. *(US-1.1, design §3.3)*
-- [ ] **5.8** Write `test/integration.test.ts` using `unstable_dev` — test: serves index page, returns SSE for chat, handles `/weather`, handles `/remind` round-trip via KV. *(US-2.1, US-3.1, US-5.1, design §8.4)*
-- [ ] **5.9** Run full test suite `npm test` — all unit + property + integration tests pass. *(verification)*
+- [x] **5.8** Write `test/integration.test.ts` using `unstable_dev` — test: serves index page, returns SSE for chat, handles `/weather`, handles `/remind` round-trip via KV. *(US-2.1, US-3.1, US-5.1, design §8.4)*
+- [x] **5.9** Run full test suite `npm test` — all unit + property + integration tests pass. *(verification)*
 - [ ] **5.10** Run `npx wrangler deploy` and manually verify all features on the deployed URL: chat, slash commands, reminders, away messages, mobile layout, sounds toggle. *(verification — final deployability)*

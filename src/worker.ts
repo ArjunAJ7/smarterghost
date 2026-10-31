@@ -182,7 +182,7 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    if (request.method === "GET" && (url.pathname === "/" || !url.pathname.startsWith("/api/"))) {
+    if ((request.method === "GET" || request.method === "HEAD") && (url.pathname === "/" || !url.pathname.startsWith("/api/"))) {
       const assetRes = await env.ASSETS.fetch(request);
       // US-7.3 / design §1.2: cache static assets at the edge and in browsers.
       const headers = new Headers(assetRes.headers);
