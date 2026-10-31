@@ -10,10 +10,19 @@ export async function awayHandler(
   ctx: CommandContext,
 ): Promise<CommandResult> {
   const message = args?.trim() || "Away from keyboard";
-  await setAwayState(ctx.env.GHOST_KV, ctx.sessionId, {
-    message,
-    setAt: Date.now(),
-  });
+  try {
+    await setAwayState(ctx.env.GHOST_KV, ctx.sessionId, {
+      message,
+      setAt: Date.now(),
+    });
+  } catch {
+    // Design §7.3: KV failure degrades gracefully — the client mirrors the
+    // away state locally, so the confirmation still stands.
+    return {
+      kind: "text",
+      payload: `Away message set: "${message}". (Heads up: my memory banks are flaky, so this might not survive a reload.)`,
+    };
+  }
   return {
     kind: "text",
     payload: `Away message set: "${message}". I'll hold down the fort. Type /back when you return!`,

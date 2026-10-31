@@ -123,3 +123,14 @@ describe("helpers", () => {
     expect(humanizeDuration(1_000)).toBe("1 second");
   });
 });
+
+describe("KV failure degradation (US-7.2, design §7.3)", () => {
+  it("still confirms when the KV write fails, with an honest caveat", async () => {
+    const kv = new MockKV();
+    kv.put = async () => { throw new Error("KV write failed"); };
+    const r = await remindHandler("30m call mom", ctx(kv));
+    expect(r.kind).toBe("text");
+    expect(String(r.payload)).toContain("call mom");
+    expect(String(r.payload)).toContain("might not stick");
+  });
+});

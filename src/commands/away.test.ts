@@ -61,3 +61,13 @@ describe("backHandler (US-4.3)", () => {
     expect(String(r.payload)).toContain("weren't away");
   });
 });
+
+describe("KV failure degradation (design §7.3)", () => {
+  it("confirms away even when KV fails, with a caveat", async () => {
+    const kv = new MockKV();
+    kv.put = async () => { throw new Error("KV write failed"); };
+    const r = await awayHandler("lunch", ctx(kv));
+    expect(String(r.payload)).toContain('"lunch"');
+    expect(String(r.payload)).toContain("flaky");
+  });
+});

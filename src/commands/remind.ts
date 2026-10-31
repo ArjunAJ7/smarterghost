@@ -273,12 +273,20 @@ export async function remindHandler(
     dueAt: now + durationMs,
     createdAt: now,
   };
-  await addReminder(kv, ctx.sessionId, reminder);
-
-  return {
-    kind: "text",
-    payload: `Got it! I'll remind you in ${humanizeDuration(durationMs)}: "${message}" (id: ${reminder.id})`,
-  };
+  // US-7.2 / design §7.3: echo the confirmation even if the KV write fails,
+  // but be honest that the reminder may not survive.
+  try {
+    await addReminder(kv, ctx.sessionId, reminder);
+    return {
+      kind: "text",
+      payload: `Got it! I'll remind you in ${humanizeDuration(durationMs)}: "${message}" (id: ${reminder.id})`,
+    };
+  } catch {
+    return {
+      kind: "text",
+      payload: `Okay: "${message}" in ${humanizeDuration(durationMs)} — but my memory banks are flaky right now, so this reminder might not stick. Sorry!`,
+    };
+  }
 }
 
 /** `/reminders` handler — alias for `/remind list` (US-5.4). */
