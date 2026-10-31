@@ -12,7 +12,7 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await puppeteer.launch({
   executablePath: "/usr/bin/google-chrome",
-  headless: "new",
+  headless: true,
   args: ["--no-sandbox", "--disable-gpu", "--window-size=1280,800"],
 });
 
@@ -20,9 +20,11 @@ const page = await browser.newPage();
 await page.setViewport({ width: 1280, height: 800 });
 
 // Fresh session: no localStorage history.
-await page.goto(BASE, { waitUntil: "networkidle0" });
+await page.goto(BASE, { waitUntil: "domcontentloaded" });
+await page.waitForSelector(".chat-input-bar input", { timeout: 20000 });
 await page.evaluate(() => localStorage.clear());
-await page.reload({ waitUntil: "networkidle0" });
+await page.reload({ waitUntil: "domcontentloaded" });
+await page.waitForSelector(".chat-input-bar input", { timeout: 20000 });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const shot = async (name) => page.screenshot({ path: `${OUT}/${name}.png` });
