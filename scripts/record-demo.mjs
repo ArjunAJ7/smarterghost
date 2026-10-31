@@ -26,6 +26,9 @@ await page.evaluate(() => localStorage.clear());
 await page.reload({ waitUntil: "domcontentloaded" });
 await page.waitForSelector(".chat-input-bar input", { timeout: 20000 });
 
+// Record the whole run as webm (puppeteer screencast).
+const recorder = await page.screencast({ path: `${OUT}/demo.webm` });
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const shot = async (name) => page.screenshot({ path: `${OUT}/${name}.png` });
 
@@ -73,5 +76,6 @@ await waitBotIdle();
 await sleep(16000); // wait for the reminder to fire via SSE
 await shot("08-reminder");
 
+await recorder.stop();
 await browser.close();
-console.log("screenshots written to", OUT);
+console.log("screenshots + demo.webm written to", OUT);
