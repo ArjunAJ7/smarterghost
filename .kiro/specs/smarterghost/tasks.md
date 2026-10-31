@@ -64,15 +64,15 @@ handler. After this phase the Worker is feature-complete (minus UI polish).
 
 ### 3C — Reminder & Away Commands
 
-- [ ] **3.11** Implement `/remind <duration> <message>` in `src/commands/remind.ts` — parse duration, generate 6-char base36 ID, store via `addReminder`, reply with human-readable due time. Handle `cancel <id>` and `list` subcommands. *(US-5.1, US-5.3, US-5.4, design §2.6, §4.4)*
-- [ ] **3.12** Write `src/commands/remind.test.ts` — test: valid reminder creation, cancel by ID, list sorting by due time, invalid duration error, missing message error. *(US-5.1, US-5.3, US-5.4)*
-- [ ] **3.13** Create `src/commands/away.ts` — `/away <msg>` persists away state in KV and returns confirmation; `/back` clears away state and returns in-character welcome-back. *(US-4.1, US-4.3, design §2.4)*
-- [ ] **3.14** Write `src/commands/away.test.ts` — test: set away, clear away, away with no message, back when not away. *(US-4.1, US-4.3)*
+- [x] **3.11** Implement `/remind <duration> <message>` in `src/commands/remind.ts` — parse duration, generate 6-char base36 ID, store via `addReminder`, reply with human-readable due time. Handle `cancel <id>` and `list` subcommands. *(US-5.1, US-5.3, US-5.4, design §2.6, §4.4)*
+- [x] **3.12** Write `src/commands/remind.test.ts` — test: valid reminder creation, cancel by ID, list sorting by due time, invalid duration error, missing message error. *(US-5.1, US-5.3, US-5.4)*
+- [x] **3.13** Create `src/commands/away.ts` — `/away <msg>` persists away state in KV and returns confirmation; `/back` clears away state and returns in-character welcome-back. *(US-4.1, US-4.3, design §2.4)*
+- [x] **3.14** Write `src/commands/away.test.ts` — test: set away, clear away, away with no message, back when not away. *(US-4.1, US-4.3)*
 
 ### 3D — Help & Registry Population
 
-- [ ] **3.15** Create `src/commands/help.ts` — generate help text listing all registered commands with descriptions. Used as fallback for unknown commands. *(US-3.5)*
-- [ ] **3.16** Populate `COMMAND_REGISTRY` with all commands + aliases (`/w`, `/wk`, `/d`, `/n`, `/r`, `/h`, `/?`). *(design §2.4)*
+- [x] **3.15** Create `src/commands/help.ts` — generate help text listing all registered commands with descriptions. Used as fallback for unknown commands. *(US-3.5)*
+- [x] **3.16** Populate `COMMAND_REGISTRY` with all commands + aliases (`/w`, `/wk`, `/d`, `/n`, `/r`, `/h`, `/?`). *(design §2.4)*
 
 ### 3E — AI Handler
 

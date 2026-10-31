@@ -132,3 +132,162 @@ export function parseDuration(input: string): ParsedDuration {
 
   return { milliseconds: total, ok: true };
 }
+
+// ---------------------------------------------------------------------------
+// /remind command handler (design §2.6) — added in Phase 3C.
+// Handler portion authored by the agent (Kiro CLI throttled).
+// ---------------------------------------------------------------------------
+
+import {
+  addReminder,
+  cancelReminder,
+  getReminders,
+} from "../kv";
+import type { CommandContext, CommandResult } from "./registry";
+import type { Reminder } from "../types";
+
+/** Generate a short 6-char base36 reminder ID (design §4.2). */
+export function generateReminderId(): string {
+  const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+  let id = "";
+  const bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  for (const b of bytes) id += alphabet[b % 36];
+  return id;
+}
+
+/** Humanize a millisecond duration: "2 days 4 hours", "30 minutes", ... */
+export function humanizeDuration(ms: number): string {
+  const units: [string, number][] = [
+    ["day", 86_400_000],
+    ["hour", 3_600_000],
+    ["minute", 60_000],
+    ["second", 1_000],
+  ];
+  const parts: string[] = [];
+  let rest = ms;
+  for (const [name, size] of units) {
+    const n = Math.floor(rest / size);
+    if (n > 0) {
+      parts.push(`${n} ${name}${n === 1 ? "" : "s"}`);
+      rest -= n * size;
+    }
+    if (parts.length === 2) break;
+  }
+  return parts.length > 0 ? parts.join(" ") : "0 seconds";
+}
+
+function formatReminderList(reminders: Reminder[]): string {
+  if (reminders.length === 0) {
+    return "No reminders set. Use /remind <duration> <message> to set one!";
+  }
+  const sorted = [...reminders].sort((a, b) => a.dueAt - b.dueAt);
+  const now = Date.now();
+  const lines = ["Your reminders:"];
+  for (const r of sorted) {
+    const inMs = r.dueAt - now;
+    const when = inMs <= 0 ? "due now" : `in ${humanizeDuration(inMs)}`;
+    lines.push(`- [${r.id}] ${r.message} (${when})`);
+  }
+  return lines.join("\n");
+}
+
+/**
+ * `/remind` handler (design §2.6):
+ *   /remind <duration> <message...>  → create
+ *   /remind cancel <id>              → cancel
+ *   /remind list                     → list (alias for /reminders)
+ */
+export async function remindHandler(
+  args: string | undefined,
+  ctx: CommandContext,
+): Promise<CommandResult> {
+  const kv = ctx.env.GHOST_KV;
+  const trimmed = args?.trim() ?? "";
+
+  if (trimmed.length === 0) {
+    return {
+      kind: "error",
+      payload: "Usage: /remind <duration> <message> — e.g. /remind 30m call mom",
+    };
+  }
+
+  const firstToken = trimmed.split(/\s+/)[0].toLowerCase();
+
+  if (firstToken === "cancel") {
+    const id = trimmed.split(/\s+/)[1];
+    if (!id) {
+      return { kind: "error", payload: "Usage: /remind cancel <id>" };
+    }
+    const removed = await cancelReminder(kv, ctx.sessionId, id);
+    return {
+      kind: "text",
+      payload: removed
+        ? `Reminder ${id} cancelled.`
+        : `I couldn't find a reminder with id ${id}.`,
+    };
+  }
+
+  if (firstToken === "list") {
+    return {
+      kind: "text",
+      payload: formatReminderList(await getReminders(kv, ctx.sessionId)),
+    };
+  }
+
+  // Split leading duration tokens from the message: longest valid prefix.
+  const tokens = trimmed.split(/\s+/);
+  let durationMs = 0;
+  let consumed = 0;
+  for (let k = 1; k <= tokens.length; k++) {
+    const candidate = tokens.slice(0, k).join(" ");
+    const parsed = parseDuration(candidate);
+    if (parsed.ok) {
+      durationMs = parsed.milliseconds;
+      consumed = k;
+    } else if (k > 1) {
+      break;
+    }
+  }
+
+  if (consumed === 0) {
+    return {
+      kind: "error",
+      payload:
+        "I didn't understand that time. Try something like 30m, 1h30m, or 2d.",
+    };
+  }
+
+  const message = tokens.slice(consumed).join(" ").trim();
+  if (message.length === 0) {
+    return {
+      kind: "error",
+      payload: "Remind you to do what? Add a message after the time.",
+    };
+  }
+
+  const now = Date.now();
+  const reminder: Reminder = {
+    id: generateReminderId(),
+    message,
+    dueAt: now + durationMs,
+    createdAt: now,
+  };
+  await addReminder(kv, ctx.sessionId, reminder);
+
+  return {
+    kind: "text",
+    payload: `Got it! I'll remind you in ${humanizeDuration(durationMs)}: "${message}" (id: ${reminder.id})`,
+  };
+}
+
+/** `/reminders` handler — alias for `/remind list` (US-5.4). */
+export async function remindersHandler(
+  _args: string | undefined,
+  ctx: CommandContext,
+): Promise<CommandResult> {
+  return {
+    kind: "text",
+    payload: formatReminderList(await getReminders(ctx.env.GHOST_KV, ctx.sessionId)),
+  };
+}

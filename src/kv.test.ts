@@ -66,7 +66,7 @@ class MockKV {
    * otherwise the raw string is returned. This satisfies the structural
    * shape expected by src/kv.ts callers (which always pass "json").
    */
-  async get(key: string, type?: "json" | "text"): Promise<unknown> {
+  async get(key: any, type?: any): Promise<any> {
     const entry = this.store.get(key);
     if (entry === undefined) return null;
     return type === "json" ? JSON.parse(entry.value) : entry.value;
@@ -100,12 +100,8 @@ class MockKV {
   }> {
     return { keys: [], list_complete: true, cacheStatus: null };
   }
-  getWithMetadata(): Promise<{
-    value: string | null;
-    metadata: null;
-    cacheStatus: null;
-  }> {
-    return Promise.resolve({ value: null, metadata: null, cacheStatus: null });
+  async getWithMetadata(..._args: any[]): Promise<any> {
+    return { value: null, metadata: null, cacheStatus: null };
   }
 }
 
