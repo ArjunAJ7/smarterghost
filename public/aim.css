@@ -107,6 +107,18 @@ body {
   flex-direction: column;
   gap: 8px;
   min-width: 0;
+  min-height: 0;
+}
+
+#chat-window-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#chat-input-container {
+  flex-shrink: 0;
 }
 
 .away-banner {
@@ -199,8 +211,9 @@ body {
 /* Sound toggle */
 #sound-toggle-container {
   position: fixed;
-  bottom: 12px;
-  right: 12px;
+  right: 16px;
+  bottom: 64px;
+  z-index: 10;
 }
 
 .sound-toggle {

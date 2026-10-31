@@ -122,7 +122,7 @@ buddy list, away banner, sounds, and mobile responsiveness.
 - [x] **4.13** Implement client-side conversation history in `localStorage` — store last N messages, send with each request, no server-side persistence. *(design §5.6)*
 - [x] **4.14** Implement reminder polling in `App.ts` — open SSE connection to `/api/poll-reminders`, display due reminders in chat window, play alert sound if enabled. Reconnect on drop. *(US-5.2, US-5.5, design §4.4)*
 - [x] **4.15** Implement away-status UI sync — when `/away` or `/back` is used, update BuddyList grouping, show/hide AwayMessageBanner, POST to `/api/away`. Auto-clear away on any sent message. *(US-4.1, US-4.2, US-4.3, US-4.4)*
-- [ ] **4.16** Build `app.js` via the bundler and verify it loads in the browser with `npx wrangler dev`. *(verification)*
+- [x] **4.16** Build `app.js` via the bundler and verify it loads in the browser with `npx wrangler dev`. *(verification)*
 
 ---
 
